@@ -44,6 +44,12 @@ class DisableProduct implements ObserverInterface
      */
     protected $_logger;
     /**
+     * Undocumented variable
+     *
+     * @var [type]
+     */
+    protected $_productRepository;
+    /**
      * Undocumented function
      *
      * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockItemRepository
@@ -52,10 +58,12 @@ class DisableProduct implements ObserverInterface
         // \Magento\CatalogInventory\Api\StockRegistryInterface $stockItemRepository
         \Magento\CatalogInventory\Model\Stock\StockItemRepository $stockItemRepository,
         \Magento\InventorySalesAdminUi\Model\GetSalableQuantityDataBySku $getSalableQuantityDataBySku,
+        \Magento\Catalog\Model\ProductRepository $productRepository,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Psr\Log\LoggerInterface $logger
     ) {
         $this->_stockItemRepository = $stockItemRepository;
+        $this->_productRepository = $productRepository;
         $this->_getSalableQuantityDataBySku = $getSalableQuantityDataBySku;
         $this->_productFactory = $productFactory;
         $this->_logger = $logger;
@@ -74,9 +82,9 @@ class DisableProduct implements ObserverInterface
         $ids[] = array();
         for ($i = count($items) - 1; $i>=0; $i--) {
             // $this->_logger->debug($items[$i]);
-            // $this->_logger->debug($items[$i]->getProductId());
+            $this->_logger->debug($items[$i]->getProductId());
             $salable_qty = $this->_getSalableQuantityDataBySku->execute($items[$i]->getSku())[0]["qty"];
-            $product = $this->_productFactory->create()->load($items[$i]->getProductId());
+            $product = $this->_productRepository->getById($items[$i]->getProductId(),true, 0, false);
             if($product->getTypeId() == "Configurable") {
                 $flag = 0;
                 $childrens = $product->getTypeInstance()->getUsedProducts($product);
@@ -91,7 +99,7 @@ class DisableProduct implements ObserverInterface
                     $product->getResource()->saveAttribute($product, 'status');
                 }
             } else {
-                // $this->_logger->debug($salable_qty - $items[$i]->getQtyOrdered());
+                $this->_logger->debug($salable_qty - $items[$i]->getQtyOrdered());
                 if (($salable_qty - $items[$i]->getQtyOrdered()) == 0) {
                     $product->setData('status', 2);
                     $product->getResource()->saveAttribute($product, 'status');
