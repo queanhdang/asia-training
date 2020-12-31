@@ -61,25 +61,41 @@ class UpgradeData implements UpgradeDataInterface
                 'editor_attribute1' // attribute code to remove
             );
         }
-        // if (version_compare($context->getVersion(), '1.0.2') < 0) {
-        //     /**
-        //      * Remove attribute
-        //      */
-        //     $eavSetup->removeAttribute(
-        //         \Magento\Catalog\Model\Product::ENTITY,
-        //         'wysi_attribute1' // attribute code to remove
-        //     );
-        //     // get default attribute set id
-        //     $attributeSetId = $categorySetup->getAttributeSetId(\Magento\Catalog\Model\Product::ENTITY, 'Test Attribute Set 1');
-        //     $attributeGroupName = 'My Group Test';
-        //     // your custom attribute group/tab
-        //     $categorySetup->addAttributeGroup(
-        //         \Magento\Catalog\Model\Product::ENTITY,
-        //         $attributeSetId,
-        //         $attributeGroupName, // attribute group name
-        //         100 // sort order
-        //     );
-        // }
+        if (version_compare($context->getVersion(), '1.0.2') < 0) {
+            /**
+             * Remove attribute
+             */
+            $eavSetup->removeAttribute(
+                \Magento\Catalog\Model\Product::ENTITY,
+                'editor_attribute11' // attribute code to remove
+            );
+            $eavSetup->removeAttribute(
+                \Magento\Catalog\Model\Product::ENTITY,
+                'multiselect_attribute11' // attribute code to remove
+            );
+            $eavSetup->removeAttribute(
+                \Magento\Catalog\Model\Product::ENTITY,
+                'select_attribute11' // attribute code to remove
+            );
+            $eavSetup->removeAttribute(
+                \Magento\Catalog\Model\Product::ENTITY,
+                'textarea_attribute11' // attribute code to remove
+            );
+            $eavSetup->removeAttribute(
+                \Magento\Catalog\Model\Product::ENTITY,
+                'text_attribute11' // attribute code to remove
+            );
+            // // get default attribute set id
+            // $attributeSetId = $categorySetup->getAttributeSetId(\Magento\Catalog\Model\Product::ENTITY, 'Test Attribute Set 1');
+            // $attributeGroupName = 'My Group Test';
+            // // your custom attribute group/tab
+            // $categorySetup->addAttributeGroup(
+            //     \Magento\Catalog\Model\Product::ENTITY,
+            //     $attributeSetId,
+            //     $attributeGroupName, // attribute group name
+            //     100 // sort order
+            // );
+        }
         // if (version_compare($context->getVersion(), '1.0.3') < 0) {
         //     $attributeSetId = $categorySetup->getAttributeSetId(\Magento\Catalog\Model\Product::ENTITY, 'Test Attribute Set 1');
         //     $eavSetup->addAttribute(

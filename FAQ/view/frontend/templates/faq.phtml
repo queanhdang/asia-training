@@ -1,0 +1,17 @@
+<button type="button" class="action" data-trigger="trigger">
+    <span data-bind="i18n: 'FAQ link'"></span>
+</button>
+<div data-bind="mageInit: {
+        'Magento_Ui/js/modal/modal':{
+            'type': 'popup',
+            'trigger': '[data-trigger=trigger]',
+            'responsive': true,
+            'buttons': [{
+                text: jQuery.mage.__('Submit'),
+                class: 'action'
+            }]
+        }}">
+    <div class="content">
+        <?= $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('faq')->toHtml() ?>
+    </div>
+</div>
